@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -281,7 +280,7 @@ export default function Dashboard({ onLogout }) {
   const totalPG = students.filter((s) => s.degree_name === 'PG').length;
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden pt-28 pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white relative overflow-hidden pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-12 px-3 sm:px-4 md:px-6 lg:px-8">
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap');
@@ -384,7 +383,7 @@ export default function Dashboard({ onLogout }) {
           .modal-content {
             background: white;
             border-radius: 24px;
-            padding: 3rem;
+            padding: 2rem;
             max-width: 95vw;
             max-height: 95vh;
             overflow-y: auto;
@@ -393,14 +392,35 @@ export default function Dashboard({ onLogout }) {
             border: 2px solid rgba(59, 130, 246, 0.3);
             background: linear-gradient(145deg, #ffffff, #f0f4ff);
           }
+          @media (min-width: 640px) {
+            .modal-content {
+              padding: 2.5rem;
+            }
+          }
+          @media (min-width: 768px) {
+            .modal-content {
+              padding: 3rem;
+            }
+          }
           .modal-section {
             background: rgba(243, 244, 246, 0.9);
             border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
             backdrop-filter: blur(6px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+          }
+          @media (min-width: 640px) {
+            .modal-section {
+              padding: 1.5rem;
+            }
+          }
+          @media (min-width: 768px) {
+            .modal-section {
+              padding: 2rem;
+              margin-bottom: 2rem;
+            }
           }
           .modal-section:hover {
             transform: translateY(-4px);
@@ -410,12 +430,24 @@ export default function Dashboard({ onLogout }) {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.75rem;
+            padding: 0.625rem 1.25rem;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.875rem;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+          }
+          @media (min-width: 640px) {
+            .document-button {
+              padding: 0.75rem 1.5rem;
+              font-size: 0.95rem;
+            }
+          }
+          @media (min-width: 768px) {
+            .document-button {
+              padding: 0.75rem 1.75rem;
+              font-size: 1rem;
+            }
           }
           .view-button {
             background: linear-gradient(45deg, #4F46E5, #818CF8);
@@ -523,21 +555,22 @@ export default function Dashboard({ onLogout }) {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-        className="fixed top-0 left-0 right-0 h-25 bg-gradient-to-r from-blue-900 to-black header-modern z-50 flex items-center justify-between px-8 lg:px-12"
+        className="fixed top-0 left-0 right-0 min-h-[80px] sm:h-25 bg-gradient-to-r from-blue-900 to-black header-modern z-50 flex items-center justify-between px-3 sm:px-6 md:px-8 lg:px-12 py-3 sm:py-0"
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
           <img
             src="./logo.png"
             alt="University Logo"
-            className="w-18 h-18 rounded-full border-2 border-blue-300/50"
+            className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 rounded-full border-2 border-blue-300/50"
           />
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-3xl font-inter font-extrabold text-white tracking-tight shadow-text"
+            className="text-sm sm:text-lg md:text-2xl lg:text-3xl font-inter font-extrabold text-white tracking-tight shadow-text"
           >
-            Graduation Portal Admin Dashboard
+            <span className="hidden md:inline">Graduation Portal Admin Dashboard</span>
+            <span className="md:hidden">Admin Dashboard</span>
           </motion.h1>
         </div>
         <motion.button
@@ -547,10 +580,10 @@ export default function Dashboard({ onLogout }) {
           }}
           whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(239,68,68,0.8)' }}
           whileTap={{ scale: 0.95 }}
-          className="px-6 py-3 bg-red-600 text-white rounded-xl font-poppins font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 border-2 border-red-400/50"
+          className="px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 bg-red-600 text-white rounded-lg sm:rounded-xl font-poppins font-semibold text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-1 sm:gap-2 border-2 border-red-400/50"
         >
-          <FaUserShield className="text-xl" />
-          Logout
+          <FaUserShield className="text-base sm:text-lg md:text-xl" />
+          <span className="hidden sm:inline">Logout</span>
         </motion.button>
       </motion.header>
       <motion.div
@@ -559,27 +592,27 @@ export default function Dashboard({ onLogout }) {
         transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         className="max-w-8xl mx-auto relative z-10 mt-10"
       >
-        <div className="flex items-center justify-center mb-10">
+        <div className="flex items-center justify-center mb-6 sm:mb-8 md:mb-10 px-2">
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, delay: 0.3, type: 'spring', stiffness: 100 }}
-            className="relative w-16 h-16 mr-4 flex items-center justify-center"
+            className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 mr-2 sm:mr-3 md:mr-4 flex items-center justify-center flex-shrink-0"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full shadow-lg" />
-            <FaUsers className="relative z-10 text-4xl text-white" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }} />
+            <FaUsers className="relative z-10 text-2xl sm:text-3xl md:text-4xl text-white" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }} />
             <div className="absolute inset-0 bg-blue-300/30 rounded-full animate-pulse" />
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-5xl font-inter font-extrabold text-blue-900 text-center tracking-tight shadow-text"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-inter font-extrabold text-blue-900 text-center tracking-tight shadow-text"
           >
             Student Registrations Overview
           </motion.h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-10 md:mb-12">
           {[
             { 
               icon: FaUsers, 
@@ -623,7 +656,7 @@ export default function Dashboard({ onLogout }) {
               initial={{ opacity: 0, scale: 0.95, rotateX: 15 }}
               animate={{ opacity: 1, scale: 1, rotateX: 0 }}
               transition={{ duration: 0.6, delay: card.delay, type: 'spring', stiffness: 120 }}
-              className={`relative card-modern card-glow ${card.border} rounded-3xl p-8 flex flex-col gap-4 transition-all duration-400`}
+              className={`relative card-modern card-glow ${card.border} rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col gap-3 sm:gap-4 transition-all duration-400`}
               onMouseEnter={() => setHoveredCard(index)}
               onMouseLeave={() => setHoveredCard(null)}
               onClick={(e) => {
@@ -639,27 +672,27 @@ export default function Dashboard({ onLogout }) {
               <div className="card-overlay" />
               <div className="flex items-center justify-between">
                 <motion.div
-                  className="w-16 h-16 bg-gray-100/50 rounded-2xl flex items-center justify-center backdrop-blur-md card-icon-glow"
+                  className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gray-100/50 rounded-xl sm:rounded-2xl flex items-center justify-center backdrop-blur-md card-icon-glow"
                   whileHover={{ scale: 1.15, rotate: 5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <card.icon className="text-3xl" style={{ color: card.color, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }} />
+                  <card.icon className="text-2xl sm:text-2xl md:text-3xl" style={{ color: card.color, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }} />
                 </motion.div>
                 <motion.div
-                  className="text-sm font-poppins font-medium flex items-center gap-1"
+                  className="text-xs sm:text-sm font-poppins font-medium flex items-center gap-1"
                   style={{ color: card.trend === 'up' ? '#14B8A6' : '#EF4444' }}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <FaChartLine className="text-lg" />
+                  <FaChartLine className="text-sm sm:text-base md:text-lg" />
                   {card.trend === 'up' ? '↑' : '↓'} {card.trendValue}
                 </motion.div>
               </div>
               <div className="relative z-10">
-                <h3 className="text-xl font-poppins font-semibold text-gray-800 tracking-wide">{card.title}</h3>
+                <h3 className="text-base sm:text-lg md:text-xl font-poppins font-semibold text-gray-800 tracking-wide">{card.title}</h3>
                 <motion.p
-                  className="text-4xl font-inter font-extrabold text-gray-900"
+                  className="text-2xl sm:text-3xl md:text-4xl font-inter font-extrabold text-gray-900"
                   initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.5, delay: card.delay + 0.2, type: 'spring' }}
@@ -667,7 +700,7 @@ export default function Dashboard({ onLogout }) {
                   {card.value}
                 </motion.p>
                 <motion.p
-                  className="text-sm font-poppins text-gray-600 mt-2"
+                  className="text-xs sm:text-sm font-poppins text-gray-600 mt-1 sm:mt-2"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: hoveredCard === index ? 1 : 0, y: hoveredCard === index ? 0 : 10 }}
                   transition={{ duration: 0.3 }}
@@ -675,7 +708,7 @@ export default function Dashboard({ onLogout }) {
                   {card.subText}
                 </motion.p>
                 <motion.p
-                  className="text-xs font-poppins text-gray-500 mt-1"
+                  className="text-xs font-poppins text-gray-500 mt-1 hidden sm:block"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: hoveredCard === index ? 1 : 0, y: hoveredCard === index ? 0 : 10 }}
                   transition={{ duration: 0.3, delay: 0.1 }}
@@ -711,16 +744,16 @@ export default function Dashboard({ onLogout }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border-4 border-blue-500/50 ring-2 ring-blue-100/30 p-8 mb-12"
+          className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-xl border-2 sm:border-4 border-blue-500/50 ring-2 ring-blue-100/30 p-4 sm:p-6 md:p-8 mb-8 sm:mb-10 md:mb-12"
         >
-          <h3 className="text-3xl font-inter font-extrabold text-blue-900 mb-6 flex items-center gap-3">
-            <FaFilter className="text-blue-600 text-2xl" />
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-inter font-extrabold text-blue-900 mb-4 sm:mb-5 md:mb-6 flex items-center gap-2 sm:gap-3">
+            <FaFilter className="text-lg sm:text-xl md:text-2xl text-blue-600" />
             Advanced Filters
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaSearch className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaSearch className="text-blue-600 flex-shrink-0" />
                 Student Name
               </label>
               <input
@@ -728,18 +761,18 @@ export default function Dashboard({ onLogout }) {
                 placeholder="Search by name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 placeholder-blue-400/60 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 placeholder-blue-400/60 text-sm sm:text-base md:text-lg"
               />
             </div>
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaGraduationCap className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaGraduationCap className="text-blue-600 flex-shrink-0" />
                 Degree
               </label>
               <select
                 value={degreeFilter}
                 onChange={(e) => setDegreeFilter(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-sm sm:text-base md:text-lg"
               >
                 <option value="">All Degrees</option>
                 {DEGREE_OPTIONS.map((degree) => (
@@ -748,14 +781,14 @@ export default function Dashboard({ onLogout }) {
               </select>
             </div>
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaVenusMars className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaVenusMars className="text-blue-600 flex-shrink-0" />
                 Gender
               </label>
               <select
                 value={genderFilter}
                 onChange={(e) => setGenderFilter(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-sm sm:text-base md:text-lg"
               >
                 <option value="">All Genders</option>
                 {GENDER_OPTIONS.map((gender) => (
@@ -764,14 +797,14 @@ export default function Dashboard({ onLogout }) {
               </select>
             </div>
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaUtensils className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaUtensils className="text-blue-600 flex-shrink-0" />
                 Lunch Preference
               </label>
               <select
                 value={lunchFilter}
                 onChange={(e) => setLunchFilter(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-sm sm:text-base md:text-lg"
               >
                 <option value="">All Preferences</option>
                 {LUNCH_OPTIONS.map((lunch) => (
@@ -780,14 +813,14 @@ export default function Dashboard({ onLogout }) {
               </select>
             </div>
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaUsers className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaUsers className="text-blue-600 flex-shrink-0" />
                 Community
               </label>
               <select
                 value={communityFilter}
                 onChange={(e) => setCommunityFilter(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-sm sm:text-base md:text-lg"
               >
                 <option value="">All Communities</option>
                 {COMMUNITY_OPTIONS.map((community) => (
@@ -796,8 +829,8 @@ export default function Dashboard({ onLogout }) {
               </select>
             </div>
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaGlobe className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaGlobe className="text-blue-600 flex-shrink-0" />
                 Nationality
               </label>
               <input
@@ -805,12 +838,12 @@ export default function Dashboard({ onLogout }) {
                 placeholder="Search by nationality..."
                 value={nationalityFilter}
                 onChange={(e) => setNationalityFilter(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 placeholder-blue-400/60 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 placeholder-blue-400/60 text-sm sm:text-base md:text-lg"
               />
             </div>
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaPray className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaPray className="text-blue-600 flex-shrink-0" />
                 Religion
               </label>
               <input
@@ -818,18 +851,18 @@ export default function Dashboard({ onLogout }) {
                 placeholder="Search by religion..."
                 value={religionFilter}
                 onChange={(e) => setReligionFilter(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 placeholder-blue-400/60 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 placeholder-blue-400/60 text-sm sm:text-base md:text-lg"
               />
             </div>
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaMapMarkerAlt className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaMapMarkerAlt className="text-blue-600 flex-shrink-0" />
                 Place of Birth
               </label>
               <select
                 value={placeOfBirthFilter}
                 onChange={(e) => setPlaceOfBirthFilter(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-sm sm:text-base md:text-lg"
               >
                 <option value="">All Places</option>
                 {DISTRICT_OPTIONS.map((district) => (
@@ -838,14 +871,14 @@ export default function Dashboard({ onLogout }) {
               </select>
             </div>
             <div>
-              <label className="block text-blue-800 font-semibold mb-2 flex items-center gap-2 text-lg font-poppins">
-                <FaUserGraduate className="text-blue-600" />
+              <label className="flex text-blue-800 font-semibold mb-2 items-center gap-2 text-sm sm:text-base md:text-lg font-poppins">
+                <FaUserGraduate className="text-blue-600 flex-shrink-0" />
                 Registered Graduate
               </label>
               <select
                 value={isRegisteredGraduateFilter}
                 onChange={(e) => setIsRegisteredGraduateFilter(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-lg"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-sm sm:text-base md:text-lg"
               >
                 <option value="">All</option>
                 {REGISTERED_GRADUATE_OPTIONS.map((option) => (
@@ -859,40 +892,40 @@ export default function Dashboard({ onLogout }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border-4 border-blue-600/50 ring-2 ring-blue-100/30 hover:ring-blue-300/50 transition-all duration-400 p-8"
+          className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-xl border-2 sm:border-4 border-blue-600/50 ring-2 ring-blue-100/30 hover:ring-blue-300/50 transition-all duration-400 p-4 sm:p-6 md:p-8"
         >
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-3xl font-inter font-extrabold text-blue-900 flex items-center gap-3">
-              <FaUniversity className="text-blue-600 text-2xl" />
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-inter font-extrabold text-blue-900 flex items-center gap-2 sm:gap-3">
+              <FaUniversity className="text-lg sm:text-xl md:text-2xl text-blue-600" />
               Student Registration Records
             </h3>
             <motion.button
               onClick={downloadCSV}
               whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(59,130,246,0.8)' }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-2xl font-poppins font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 border-2 border-blue-300/50"
+              className="px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-xl sm:rounded-2xl font-poppins font-semibold text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 border-2 border-blue-300/50 w-full sm:w-auto justify-center"
             >
-              <FaFileExcel className="text-xl" />
+              <FaFileExcel className="text-base sm:text-lg md:text-xl" />
               Export CSV
             </motion.button>
           </div>
-          <div className="flex justify-between items-center mb-4 text-blue-800">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-3 sm:mb-4 text-blue-800">
             <div className="flex items-center gap-2">
-              <label className="font-poppins font-semibold text-lg">Show</label>
+              <label className="font-poppins font-semibold text-sm sm:text-base md:text-lg">Show</label>
               <select
                 value={entriesPerPage}
                 onChange={(e) => {
                   setEntriesPerPage(Number(e.target.value));
                   setCurrentPage(1);
                 }}
-                className="px-3 py-2 rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-lg"
+                className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-gray-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 font-poppins text-blue-900 text-sm sm:text-base md:text-lg"
               >
                 {[10, 25, 50, 100].map((num) => (
                   <option key={num} value={num}>{num} entries</option>
                 ))}
               </select>
             </div>
-            <div className="font-poppins text-lg">
+            <div className="font-poppins text-xs sm:text-sm md:text-lg">
               Showing {indexOfFirstEntry + 1} to {Math.min(indexOfLastEntry, filteredStudents.length)} of {filteredStudents.length} entries
             </div>
           </div>
@@ -913,106 +946,112 @@ export default function Dashboard({ onLogout }) {
                   <FaUsers className="relative z-10 text-5xl text-white" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }} />
                   <div className="absolute inset-0 bg-blue-300/30 rounded-full animate-pulse" />
                 </motion.div>
-                <h3 className="text-2xl font-inter font-bold text-blue-900 mb-2">No Students Found</h3>
-                <p className="text-lg font-poppins text-blue-600/80">Try adjusting your filters to see more results.</p>
+                <h3 className="text-xl sm:text-2xl font-inter font-bold text-blue-900 mb-2">No Students Found</h3>
+                <p className="text-base sm:text-lg font-poppins text-blue-600/80">Try adjusting your filters to see more results.</p>
               </motion.div>
             ) : (
-              <table className="w-full table-auto border-collapse text-base">
-                <thead>
-                  <tr className="bg-blue-600 text-white">
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Full Name</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Date of Birth</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Gender</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Guardian Name</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Nationality</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Religion</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Email</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Mobile Number</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Place of Birth</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Community</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Mother Tongue</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Aadhar Number</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Degree Name</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">University Name</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Degree Pattern</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Convocation Year</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Registered Graduate</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Occupation</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Address</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Lunch Required</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Companion Option</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Created At</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Updated At</th>
-                    <th className="px-6 py-4 text-left font-poppins font-extrabold text-lg">Documents</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentEntries.map((student, index) => (
-                    <motion.tr
-                      key={student.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: index * 0.05 }}
-                      className="border-b border-blue-100 hover:bg-blue-50/70 transition-all duration-200"
-                    >
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.full_name}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.date_of_birth}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.gender}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.guardian_name}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.nationality}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.religion}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.email || 'N/A'}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.mobile_number}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.place_of_birth}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.community}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.mother_tongue}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.aadhar_number}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.degree_name}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.university_name}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.degree_pattern}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.convocation_year}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.is_registered_graduate ? 'Yes' : 'No'}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.occupation}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.address}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.lunch_required}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{student.companion_option}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{new Date(student.created_at).toLocaleString()}</td>
-                      <td className="px-6 py-4 font-poppins font-bold text-blue-900 text-lg">{new Date(student.updated_at).toLocaleString()}</td>
-                      <td className="px-6 py-4">
-                        <motion.button
-                          onClick={() => openDocumentModal(student)}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="px-4 py-2 bg-blue-600 text-white rounded-xl font-poppins font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
-                        >
-                          View Documents
-                        </motion.button>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="overflow-x-auto -mx-4 sm:mx-0">
+                <div className="inline-block min-w-full align-middle">
+                  <div className="overflow-hidden">
+                    <table className="min-w-full table-auto border-collapse text-xs sm:text-sm md:text-base">
+                      <thead>
+                        <tr className="bg-blue-600 text-white">
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Full Name</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Date of Birth</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Gender</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Guardian Name</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Nationality</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Religion</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Email</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Mobile Number</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Place of Birth</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Community</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Mother Tongue</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Aadhar Number</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Degree Name</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">University Name</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Degree Pattern</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Convocation Year</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Registered Graduate</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Occupation</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Address</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Lunch Required</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Companion Option</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Created At</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Updated At</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Documents</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentEntries.map((student, index) => (
+                          <motion.tr
+                            key={student.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: index * 0.05 }}
+                            className="border-b border-blue-100 hover:bg-blue-50/70 transition-all duration-200"
+                          >
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.full_name}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.date_of_birth}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.gender}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.guardian_name}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.nationality}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.religion}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.email || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.mobile_number}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.place_of_birth}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.community}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.mother_tongue}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.aadhar_number}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.degree_name}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.university_name}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.degree_pattern}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.convocation_year}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.is_registered_graduate ? 'Yes' : 'No'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.occupation}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.address}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.lunch_required}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.companion_option}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{new Date(student.created_at).toLocaleString()}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{new Date(student.updated_at).toLocaleString()}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4">
+                              <motion.button
+                                onClick={() => openDocumentModal(student)}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg sm:rounded-xl font-poppins font-semibold text-xs sm:text-sm md:text-base lg:text-lg shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
+                              >
+                                View Documents
+                              </motion.button>
+                            </td>
+                          </motion.tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
           {currentEntries.length > 0 && (
-            <div className="flex justify-between items-center mt-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mt-4 sm:mt-5 md:mt-6">
               <motion.button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-4 py-2 bg-blue-600 text-white rounded-2xl font-poppins font-semibold text-lg ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-xl sm:rounded-2xl font-poppins font-semibold text-sm sm:text-base md:text-lg ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''} w-full sm:w-auto`}
               >
                 Previous
               </motion.button>
-              <div className="flex gap-2">
+              <div className="flex gap-1 sm:gap-2 flex-wrap justify-center">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                   <motion.button
                     key={page}
                     onClick={() => paginate(page)}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className={`px-4 py-2 rounded-2xl font-poppins font-semibold text-lg ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-100 text-blue-900 border border-blue-200'}`}
+                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl font-poppins font-semibold text-sm sm:text-base md:text-lg ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-100 text-blue-900 border border-blue-200'}`}
                   >
                     {page}
                   </motion.button>
@@ -1023,7 +1062,7 @@ export default function Dashboard({ onLogout }) {
                 disabled={currentPage === totalPages}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-4 py-2 bg-blue-600 text-white rounded-2xl font-poppins font-semibold text-lg ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-xl sm:rounded-2xl font-poppins font-semibold text-sm sm:text-base md:text-lg ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''} w-full sm:w-auto`}
               >
                 Next
               </motion.button>
@@ -1050,19 +1089,19 @@ export default function Dashboard({ onLogout }) {
               onClick={(e) => e.stopPropagation()}
             >
               <motion.button
-                className="absolute top-4 right-4 text-gray-600 hover:text-red-600"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-600 hover:text-red-600 z-10"
                 onClick={() => setModalOpen(false)}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <FaTimes size={24} />
+                <FaTimes size={20} className="sm:w-6 sm:h-6" />
               </motion.button>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-3xl font-inter font-extrabold text-blue-900">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-inter font-extrabold text-blue-900">
                   Documents for {selectedStudent.full_name}
                 </h2>
                 <motion.button
-                  className="document-button download-all-button"
+                  className="document-button download-all-button w-full sm:w-auto justify-center"
                   onClick={() => downloadAllDocuments(selectedStudent.id, selectedStudent.full_name)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -1072,7 +1111,7 @@ export default function Dashboard({ onLogout }) {
                   Download All
                 </motion.button>
               </div>
-              <div className="grid gap-6">
+              <div className="grid gap-4 sm:gap-5 md:gap-6">
                 {[
                   { type: 'applicant_photo', label: 'Applicant Photo', icon: FaImage },
                   { type: 'aadhar_copy', label: 'Aadhar Copy', icon: FaFilePdf },
@@ -1089,14 +1128,14 @@ export default function Dashboard({ onLogout }) {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
-                      <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-poppins font-semibold text-blue-800 flex items-center gap-2">
-                          <doc.icon className="text-blue-600" />
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                        <h3 className="text-base sm:text-lg md:text-xl font-poppins font-semibold text-blue-800 flex items-center gap-2">
+                          <doc.icon className="text-blue-600 flex-shrink-0" />
                           {doc.label}
                         </h3>
-                        <div className="flex gap-3">
+                        <div className="flex gap-2 sm:gap-3 w-full sm:w-auto">
                           <motion.button
-                            className="document-button view-button"
+                            className="document-button view-button flex-1 sm:flex-initial justify-center"
                             onClick={() => viewDocument(selectedStudent.id, doc.type)}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -1106,7 +1145,7 @@ export default function Dashboard({ onLogout }) {
                             View
                           </motion.button>
                           <motion.button
-                            className="document-button download-button"
+                            className="document-button download-button flex-1 sm:flex-initial justify-center"
                             onClick={() => downloadFile(selectedStudent.id, doc.type)}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}

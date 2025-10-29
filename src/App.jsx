@@ -17,7 +17,7 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/login"
+          path="/"
           element={
             isLoggedIn ? <Navigate to="/dashboard" /> : <Login onLogin={handleLogin} />
           }
@@ -25,13 +25,13 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            isLoggedIn ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />
+            isLoggedIn ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/" />
           }
         />
         <Route
           path="/"
           element={
-            isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
+            isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/" />
           }
         />
       </Routes>
