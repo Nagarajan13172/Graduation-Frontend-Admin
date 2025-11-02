@@ -1,0 +1,47 @@
+services:
+  graduate-frontend-admin:
+    image: ghcr.io/succeedex-org/oauth:stag
+    container_name: graduate-frontend-admin
+    restart: always
+    hostname: oauth
+    networks:
+      default:
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.graduate-frontend-admin.rule=Host(`admin.graduate.periyaruniversity.ac.in`)
+      - traefik.http.routers.graduate-frontend-admin.entrypoints=websecure
+      - traefik.http.routers.graduate-frontend-admin.tls=true
+      - traefik.http.routers.graduate-frontend-admin.tls.certresolver=myresolver
+
+      # ✅ Combine middlewares
+      - traefik.http.routers.graduate-frontend-admin.middlewares=ratelimit,oauth-spa-fallback
+
+      # === Rate Limit Middleware ===
+      - traefik.http.middlewares.ratelimit.ratelimit.average=30
+      - traefik.http.middlewares.ratelimit.ratelimit.burst=120
+      - traefik.http.middlewares.ratelimit.ratelimit.period=3s
+      - traefik.http.middlewares.ratelimit.ratelimit.sourceCriterion.ipStrategy.depth=1
+
+      # ✅ Correct middleware name scoped to this container
+      - traefik.http.middlewares.oauth-spa-fallback.errors.status=404
+      - traefik.http.middlewares.oauth-spa-fallback.errors.service=graduate-frontend-admin
+      - traefik.http.middlewares.oauth-spa-fallback.errors.query=/index.html
+
+      - traefik.http.services.graduate-frontend-admin.loadbalancer.server.port=80
+
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+networks:
+  default:
+    name: edge
+    external: true
