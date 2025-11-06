@@ -112,7 +112,9 @@ export default function Dashboard({ onLogout }) {
       'ID', 'Full Name', 'Date of Birth', 'Gender', 'Guardian Name', 'Nationality', 'Religion', 'Email',
       'Mobile Number', 'Place of Birth', 'Community', 'Mother Tongue', 'Aadhar Number', 'Degree Name',
       'University Name', 'Degree Pattern', 'Convocation Year', 'Is Registered Graduate', 'Occupation',
-      'Address', 'Lunch Required', 'Companion Option', 'Created At', 'Updated At'
+      'Address', 'Lunch Required', 'Companion Option', 'Payment Status', 'Payment Amount', 'Order ID',
+      'Transaction ID', 'Payment Date', 'Payment Method', 'Bank Reference', 'Receipt Number', 
+      'Receipt Generated At', 'Created At', 'Updated At'
     ].join(',');
     const rows = filteredStudents.map((s) => [
       s.id,
@@ -137,6 +139,15 @@ export default function Dashboard({ onLogout }) {
       `"${s.address}"`,
       s.lunch_required,
       s.companion_option,
+      s.payment_status || 'N/A',
+      s.payment_amount || 'N/A',
+      s.orderid || 'N/A',
+      s.transaction_id || 'N/A',
+      s.payment_date ? `"${new Date(s.payment_date).toLocaleString()}"` : 'N/A',
+      s.payment_method_type || 'N/A',
+      s.payment_bank_ref || 'N/A',
+      s.receipt_number || 'N/A',
+      s.receipt_generated_at ? `"${new Date(s.receipt_generated_at).toLocaleString()}"` : 'N/A',
       `"${new Date(s.created_at).toLocaleString()}"`,
       `"${new Date(s.updated_at).toLocaleString()}"`
     ].join(','));
@@ -977,6 +988,17 @@ export default function Dashboard({ onLogout }) {
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Address</th>
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Lunch Required</th>
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Companion Option</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Payment Status</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Payment Amount</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Order ID</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Transaction ID</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Payment Date</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Payment Method</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Bank Reference</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Payment Error Code</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Payment Error Desc</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Receipt Number</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Receipt Generated At</th>
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Created At</th>
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Updated At</th>
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Documents</th>
@@ -1012,6 +1034,21 @@ export default function Dashboard({ onLogout }) {
                             <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.address}</td>
                             <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.lunch_required}</td>
                             <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.companion_option}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">
+                              <span className={`px-2 py-1 rounded-lg ${student.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                {student.payment_status || 'N/A'}
+                              </span>
+                            </td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">₹{student.payment_amount || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.orderid || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.transaction_id || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.payment_date ? new Date(student.payment_date).toLocaleString() : 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.payment_method_type || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.payment_bank_ref || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.payment_error_code || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.payment_error_desc || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.receipt_number || 'N/A'}</td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{student.receipt_generated_at ? new Date(student.receipt_generated_at).toLocaleString() : 'N/A'}</td>
                             <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{new Date(student.created_at).toLocaleString()}</td>
                             <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 font-poppins font-bold text-blue-900 text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">{new Date(student.updated_at).toLocaleString()}</td>
                             <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4">
