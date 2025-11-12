@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaGraduationCap, FaUsers, FaFilter, FaFileExcel, FaUserShield, FaSearch, FaUniversity, FaVenusMars, FaUtensils, FaChartLine, FaGlobe, FaPray, FaLanguage, FaMapMarkerAlt, FaUserGraduate, FaFileDownload, FaTimes, FaFilePdf, FaImage, FaEye, FaDownload, FaSpinner } from 'react-icons/fa';
+import { FaGraduationCap, FaUsers, FaFilter, FaFileExcel, FaUserShield, FaSearch, FaUniversity, FaVenusMars, FaUtensils, FaChartLine, FaGlobe, FaPray, FaLanguage, FaMapMarkerAlt, FaUserGraduate, FaFileDownload, FaTimes, FaFilePdf, FaImage, FaEye, FaDownload, FaSpinner, FaTrash } from 'react-icons/fa';
 import { API_BASE } from '../api';
 import { getToken, removeToken } from '../auth';
 
@@ -25,6 +25,9 @@ export default function Dashboard({ onLogout }) {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoadingDocument, setIsLoadingDocument] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const DEGREE_OPTIONS = ['UG', 'PG'];
   const GENDER_OPTIONS = ['Male', 'Female', 'Other'];
@@ -277,6 +280,44 @@ export default function Dashboard({ onLogout }) {
       toast.error('Failed to load document');
       setIsLoadingDocument(false);
     }
+  };
+
+  const handleDeleteClick = (student) => {
+    setStudentToDelete(student);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!studentToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await axios.delete(`${API_BASE}/admin/students/${studentToDelete.id}`, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      // Update the students list by removing the deleted student
+      setStudents((prev) => prev.filter((s) => s.id !== studentToDelete.id));
+      setFilteredStudents((prev) => prev.filter((s) => s.id !== studentToDelete.id));
+
+      toast.success('Student deleted successfully');
+      setDeleteModalOpen(false);
+      setStudentToDelete(null);
+    } catch (err) {
+      console.error('Error deleting student:', err);
+      if (err.code === 'ERR_NETWORK') {
+        toast.error('Network error: Backend server may be down or the endpoint does not exist');
+      } else {
+        toast.error(err.response?.data?.error || err.response?.data?.message || 'Failed to delete student');
+      }
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModalOpen(false);
+    setStudentToDelete(null);
   };
 
   const indexOfLastEntry = currentPage * entriesPerPage;
@@ -1002,6 +1043,7 @@ export default function Dashboard({ onLogout }) {
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Created At</th>
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Updated At</th>
                           <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Documents</th>
+                          <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-left font-poppins font-extrabold text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1059,6 +1101,17 @@ export default function Dashboard({ onLogout }) {
                                 className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg sm:rounded-xl font-poppins font-semibold text-xs sm:text-sm md:text-base lg:text-lg shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
                               >
                                 View Documents
+                              </motion.button>
+                            </td>
+                            <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4">
+                              <motion.button
+                                onClick={() => handleDeleteClick(student)}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="px-3 sm:px-4 py-1.5 sm:py-2 bg-red-600 text-white rounded-lg sm:rounded-xl font-poppins font-semibold text-xs sm:text-sm md:text-base lg:text-lg shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap flex items-center gap-2"
+                              >
+                                <FaTrash />
+                                Delete
                               </motion.button>
                             </td>
                           </motion.tr>
@@ -1201,6 +1254,78 @@ export default function Dashboard({ onLogout }) {
                     </motion.div>
                   )
                 ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {deleteModalOpen && studentToDelete && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={handleDeleteCancel}
+          >
+            <motion.div
+              className="modal-content max-w-md"
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              transition={{ duration: 0.4, type: 'spring', stiffness: 100 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.button
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-600 hover:text-red-600 z-10"
+                onClick={handleDeleteCancel}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaTimes size={20} className="sm:w-6 sm:h-6" />
+              </motion.button>
+              <div className="text-center">
+                <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                  <FaTrash className="h-8 w-8 text-red-600" />
+                </div>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-inter font-extrabold text-gray-900 mb-4">
+                  Delete Student Record
+                </h2>
+                <p className="text-base sm:text-lg font-poppins text-gray-600 mb-6">
+                  Are you sure you want to delete <span className="font-bold text-red-600">{studentToDelete.full_name}</span>? 
+                  This action cannot be undone and will permanently remove all student data including documents.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <motion.button
+                    onClick={handleDeleteCancel}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    disabled={isDeleting}
+                    className="px-6 py-3 bg-gray-200 text-gray-800 rounded-xl font-poppins font-semibold text-base hover:bg-gray-300 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Cancel
+                  </motion.button>
+                  <motion.button
+                    onClick={handleDeleteConfirm}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    disabled={isDeleting}
+                    className="px-6 py-3 bg-red-600 text-white rounded-xl font-poppins font-semibold text-base hover:bg-red-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {isDeleting ? (
+                      <>
+                        <FaSpinner className="animate-spin" />
+                        Deleting...
+                      </>
+                    ) : (
+                      <>
+                        <FaTrash />
+                        Delete
+                      </>
+                    )}
+                  </motion.button>
+                </div>
               </div>
             </motion.div>
           </motion.div>
