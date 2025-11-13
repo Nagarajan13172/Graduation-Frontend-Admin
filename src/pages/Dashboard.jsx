@@ -292,8 +292,9 @@ export default function Dashboard({ onLogout }) {
 
     setIsDeleting(true);
     try {
-      await axios.delete(`${API_BASE}/admin/students/${studentToDelete.id}`, {
+      await axios.delete(`${API_BASE}/graduation/students/${studentToDelete.id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
+        timeout: 10000, // 10 second timeout
       });
 
       // Update the students list by removing the deleted student
@@ -305,8 +306,30 @@ export default function Dashboard({ onLogout }) {
       setStudentToDelete(null);
     } catch (err) {
       console.error('Error deleting student:', err);
-      if (err.code === 'ERR_NETWORK') {
-        toast.error('Network error: Backend server may be down or the endpoint does not exist');
+      
+      // If it's a network error but the backend might have succeeded
+      // We'll try to refetch the data to check if it was actually deleted
+      if (err.code === 'ERR_NETWORK' || err.message === 'Network Error') {
+        // Refresh the data to see if deletion actually worked
+        try {
+          const response = await axios.get(`${API_BASE}/graduation/all`, {
+            headers: { Authorization: `Bearer ${getToken()}` },
+          });
+          const deletedStudentExists = response.data.find((s) => s.id === studentToDelete.id);
+          
+          if (!deletedStudentExists) {
+            // Student was actually deleted, just update the UI
+            setStudents(response.data);
+            setFilteredStudents(response.data);
+            toast.success('Student deleted successfully');
+            setDeleteModalOpen(false);
+            setStudentToDelete(null);
+          } else {
+            toast.error('Network error: Failed to delete student');
+          }
+        } catch (refreshErr) {
+          toast.error('Network error: Unable to verify deletion');
+        }
       } else {
         toast.error(err.response?.data?.error || err.response?.data?.message || 'Failed to delete student');
       }
